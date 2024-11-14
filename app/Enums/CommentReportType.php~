@@ -1,0 +1,8 @@
+<?php
+
+namespace Liamtseva\Cinema\Enums;
+
+enum CommentReportType: string
+{
+    //
+}

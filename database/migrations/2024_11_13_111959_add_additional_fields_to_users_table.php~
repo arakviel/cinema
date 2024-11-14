@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         $roleValues = implode("','", array_column(Role::cases(), 'value'));
-        DB::unprepared("CREATE TYPE role AS ENUM ('admin', 'moderator', 'user')");
+        DB::unprepared("CREATE TYPE role AS ENUM ('$roleValues')");
 
         $genderValues = implode("','", array_column(Gender::cases(), 'value'));
         DB::unprepared("CREATE TYPE gender AS ENUM ('$genderValues')");
