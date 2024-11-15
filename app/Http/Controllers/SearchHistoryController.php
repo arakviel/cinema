@@ -2,9 +2,9 @@
 
 namespace Liamtseva\Cinema\Http\Controllers;
 
+use Liamtseva\Cinema\Http\Requests\StoreSearchHistoryRequest;
+use Liamtseva\Cinema\Http\Requests\UpdateSearchHistoryRequest;
 use Liamtseva\Cinema\Models\SearchHistory;
-use App\Http\Requests\StoreSearchHistoryRequest;
-use App\Http\Requests\UpdateSearchHistoryRequest;
 
 class SearchHistoryController extends Controller
 {

@@ -2,8 +2,7 @@
 
 namespace Liamtseva\Cinema\Policies;
 
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Liamtseva\Cinema\Models\User;
 use Liamtseva\Cinema\Models\UserList;
 
 class UserListPolicy

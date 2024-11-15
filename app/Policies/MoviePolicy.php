@@ -2,9 +2,8 @@
 
 namespace Liamtseva\Cinema\Policies;
 
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
 use Liamtseva\Cinema\Models\Movie;
+use Liamtseva\Cinema\Models\User;
 
 class MoviePolicy
 {

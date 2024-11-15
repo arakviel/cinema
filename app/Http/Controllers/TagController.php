@@ -2,9 +2,9 @@
 
 namespace Liamtseva\Cinema\Http\Controllers;
 
+use Liamtseva\Cinema\Http\Requests\StoreTagRequest;
+use Liamtseva\Cinema\Http\Requests\UpdateTagRequest;
 use Liamtseva\Cinema\Models\Tag;
-use App\Http\Requests\StoreTagRequest;
-use App\Http\Requests\UpdateTagRequest;
 
 class TagController extends Controller
 {

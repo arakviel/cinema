@@ -2,9 +2,9 @@
 
 namespace Liamtseva\Cinema\Http\Controllers;
 
+use Liamtseva\Cinema\Http\Requests\StoreWatchHistoryRequest;
+use Liamtseva\Cinema\Http\Requests\UpdateWatchHistoryRequest;
 use Liamtseva\Cinema\Models\WatchHistory;
-use App\Http\Requests\StoreWatchHistoryRequest;
-use App\Http\Requests\UpdateWatchHistoryRequest;
 
 class WatchHistoryController extends Controller
 {

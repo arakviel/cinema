@@ -2,9 +2,9 @@
 
 namespace Liamtseva\Cinema\Http\Controllers;
 
+use Liamtseva\Cinema\Http\Requests\StoreSelectionRequest;
+use Liamtseva\Cinema\Http\Requests\UpdateSelectionRequest;
 use Liamtseva\Cinema\Models\Selection;
-use App\Http\Requests\StoreSelectionRequest;
-use App\Http\Requests\UpdateSelectionRequest;
 
 class SelectionController extends Controller
 {
@@ -13,7 +13,8 @@ class SelectionController extends Controller
      */
     public function index()
     {
-        //
+        $selections = Selection::query()->name()->dumpRawSql();
+        //dd($selections);
     }
 
     /**

@@ -2,9 +2,9 @@
 
 namespace Liamtseva\Cinema\Http\Controllers;
 
+use Liamtseva\Cinema\Http\Requests\StoreRatingRequest;
+use Liamtseva\Cinema\Http\Requests\UpdateRatingRequest;
 use Liamtseva\Cinema\Models\Rating;
-use App\Http\Requests\StoreRatingRequest;
-use App\Http\Requests\UpdateRatingRequest;
 
 class RatingController extends Controller
 {

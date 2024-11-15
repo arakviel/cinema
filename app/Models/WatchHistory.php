@@ -2,11 +2,16 @@
 
 namespace Liamtseva\Cinema\Models;
 
+use Database\Factories\WatchHistoryFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperWatchHistory
+ */
 class WatchHistory extends Model
 {
-    /** @use HasFactory<\Database\Factories\WatchHistoryFactory> */
-    use HasFactory;
+    /** @use HasFactory<WatchHistoryFactory> */
+    use HasFactory, HasUlids;
 }

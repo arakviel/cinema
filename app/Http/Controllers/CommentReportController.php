@@ -2,9 +2,9 @@
 
 namespace Liamtseva\Cinema\Http\Controllers;
 
+use Liamtseva\Cinema\Http\Requests\StoreCommentReportRequest;
+use Liamtseva\Cinema\Http\Requests\UpdateCommentReportRequest;
 use Liamtseva\Cinema\Models\CommentReport;
-use App\Http\Requests\StoreCommentReportRequest;
-use App\Http\Requests\UpdateCommentReportRequest;
 
 class CommentReportController extends Controller
 {

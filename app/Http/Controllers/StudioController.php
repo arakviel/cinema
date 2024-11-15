@@ -2,9 +2,9 @@
 
 namespace Liamtseva\Cinema\Http\Controllers;
 
+use Liamtseva\Cinema\Http\Requests\StoreStudioRequest;
+use Liamtseva\Cinema\Http\Requests\UpdateStudioRequest;
 use Liamtseva\Cinema\Models\Studio;
-use App\Http\Requests\StoreStudioRequest;
-use App\Http\Requests\UpdateStudioRequest;
 
 class StudioController extends Controller
 {

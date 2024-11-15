@@ -2,9 +2,9 @@
 
 namespace Liamtseva\Cinema\Http\Controllers;
 
+use Liamtseva\Cinema\Http\Requests\StoreEpisodeRequest;
+use Liamtseva\Cinema\Http\Requests\UpdateEpisodeRequest;
 use Liamtseva\Cinema\Models\Episode;
-use App\Http\Requests\StoreEpisodeRequest;
-use App\Http\Requests\UpdateEpisodeRequest;
 
 class EpisodeController extends Controller
 {

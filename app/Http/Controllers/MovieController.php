@@ -2,9 +2,9 @@
 
 namespace Liamtseva\Cinema\Http\Controllers;
 
+use Liamtseva\Cinema\Http\Requests\StoreMovieRequest;
+use Liamtseva\Cinema\Http\Requests\UpdateMovieRequest;
 use Liamtseva\Cinema\Models\Movie;
-use App\Http\Requests\StoreMovieRequest;
-use App\Http\Requests\UpdateMovieRequest;
 
 class MovieController extends Controller
 {

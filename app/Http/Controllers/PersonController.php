@@ -2,9 +2,9 @@
 
 namespace Liamtseva\Cinema\Http\Controllers;
 
+use Liamtseva\Cinema\Http\Requests\StorePersonRequest;
+use Liamtseva\Cinema\Http\Requests\UpdatePersonRequest;
 use Liamtseva\Cinema\Models\Person;
-use App\Http\Requests\StorePersonRequest;
-use App\Http\Requests\UpdatePersonRequest;
 
 class PersonController extends Controller
 {

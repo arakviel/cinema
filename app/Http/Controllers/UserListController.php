@@ -2,9 +2,9 @@
 
 namespace Liamtseva\Cinema\Http\Controllers;
 
+use Liamtseva\Cinema\Http\Requests\StoreUserListRequest;
+use Liamtseva\Cinema\Http\Requests\UpdateUserListRequest;
 use Liamtseva\Cinema\Models\UserList;
-use App\Http\Requests\StoreUserListRequest;
-use App\Http\Requests\UpdateUserListRequest;
 
 class UserListController extends Controller
 {

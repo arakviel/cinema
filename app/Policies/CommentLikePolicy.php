@@ -2,9 +2,8 @@
 
 namespace Liamtseva\Cinema\Policies;
 
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
 use Liamtseva\Cinema\Models\CommentLike;
+use Liamtseva\Cinema\Models\User;
 
 class CommentLikePolicy
 {
