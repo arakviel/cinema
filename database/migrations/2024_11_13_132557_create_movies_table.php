@@ -13,7 +13,6 @@ use Liamtseva\Cinema\Enums\VideoQuality;
 
 return new class extends Migration
 {
-
     public function up(): void
     {
         Schema::create('movies', function (Blueprint $table) {
@@ -30,29 +29,28 @@ return new class extends Migration
             $videoQualityValues = implode("','", array_column(VideoQuality::cases(), 'value'));
             DB::unprepared("CREATE TYPE video_quality AS ENUM ('$videoQualityValues')");
 
-
             $table->ulid('id')->primary(); // Унікальний ідентифікатор
-            $table->json('api_ids'); // JSON для API ідентифікаторів (source, id)
+            $table->json('api_sources')->default(DB::raw("'[]'::json")); // JSON для API ідентифікаторів (source, id)
             $table->string('slug', 128)->unique(); // Унікальний slug
             $table->string('name', 248); // Назва фільму
             $table->string('image_name', 2048); // Шлях до зображення
-            $table->json('aliases'); // JSON для масиву аліасів
+            $table->json('aliases')->default(DB::raw("'[]'::json")); // JSON для масиву аліасів
             $table->typeColumn('kind', 'kind');
             $table->typeColumn('status', 'status');
             $table->typeColumn('period', 'period');
             $table->typeColumn('restricted_rating', 'restricted_rating');
             $table->typeColumn('source', 'source');
             $table->typeColumn('video_quality', 'quality');
-            $table->json('countries'); // JSON країн розробників enum Country
+            $table->json('countries')->default(DB::raw("'[]'::json")); // JSON країн розробників enum Country
             $table->string('poster', 2048)->nullable(); // Шлях до постера
             $table->integer('duration')->nullable(); // Тривалість у хвилинах
             $table->integer('episodes_count')->nullable(); // Кількість епізодів
             $table->date('first_air_date')->nullable(); // Дата початку ефіру
             $table->date('last_air_date')->nullable(); // Дата завершення ефіру
             $table->decimal('imdb_score', 2, 1)->nullable(); // Оцінка на IMDB
-            $table->json('attachments')->nullable(); // JSON для масиву прикріплених елементів
-            $table->json('relateds')->nullable(); // JSON для пов'язаних елементів
-            $table->json('similars')->nullable(); // JSON для схожих фільмів
+            $table->json('attachments')->nullable()->default(DB::raw("'[]'::json")); // JSON для масиву прикріплених елементів
+            $table->json('related')->nullable()->default(DB::raw("'[]'::json")); // JSON для пов'язаних елементів
+            $table->json('similars')->nullable()->default(DB::raw("'[]'::json")); // JSON для схожих фільмів
             $table->boolean('is_published')->default(false); // Статус публікації
             $table->string('meta_title', 128)->nullable();
             $table->string('meta_description', 376)->nullable();

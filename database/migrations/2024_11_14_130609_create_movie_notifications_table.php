@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('movie_notifications', function (Blueprint $table) {
+        Schema::create('movie_user_notifications', function (Blueprint $table) {
             $table->foreignUlid('user_id')->constrained()->cascadeOnDelete();
             $table->foreignUlid('movie_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
@@ -19,6 +19,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('movie_notifications');
+        Schema::dropIfExists('movie_user_notifications');
     }
 };

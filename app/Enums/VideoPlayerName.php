@@ -2,7 +2,7 @@
 
 namespace Liamtseva\Cinema\Enums;
 
-enum VideoPlayer: string
+enum VideoPlayerName: string
 {
     case KODIK = 'kodik';
     case ALOHA = 'aloha';

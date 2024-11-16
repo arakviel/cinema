@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('name', 128);
             $table->string('description', 512);
             $table->string('image', 2048)->nullable();
-            $table->json('aliases')->nullable();
+            $table->json('aliases')->default(DB::raw("'[]'::json"));
             $table->boolean('is_genre')->default(false);
             $table->string('meta_title', 128)->nullable();
             $table->string('meta_description', 376)->nullable();

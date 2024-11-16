@@ -4,6 +4,7 @@ namespace Liamtseva\Cinema\Models\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Str;
 
 trait HasSeo
 {
@@ -12,10 +13,19 @@ trait HasSeo
         return $query->where('slug', $slug);
     }
 
-    protected function metaMetaImage(): Attribute
+    protected function metaImage(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? url("storage/$value") : null
+            get: fn ($value) => $value ? asset("storage/$value") : null
+        );
+    }
+
+    // TODO: чи треба так робити? протестити у filament php
+    protected function slug(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value,
+            set: fn ($value) => Str::slug($value)
         );
     }
 }

@@ -3,10 +3,13 @@
 namespace Liamtseva\Cinema\Models;
 
 use Database\Factories\TagFactory;
+use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Liamtseva\Cinema\Models\Traits\HasSeo;
 
 /**
@@ -19,20 +22,34 @@ class Tag extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'aliases' => 'array',
-    ];
-
     public function scopeGenres($query)
     {
         return $query->where('is_genre', true);
     }
 
-    // TODO: Переробити на fulltext
     public function scopeSearch($query, string $term)
     {
         return $query->where('name', 'LIKE', "%{$term}%")
             ->orWhere('slug', 'LIKE', "%{$term}%");
+    }
+
+    // TODO: Переробити на fulltext
+
+    public function movies(): BelongsToMany
+    {
+        return $this->belongsToMany(Movie::class);
+    }
+
+    public function userLists(): MorphMany
+    {
+        return $this->morphMany(UserList::class, 'listable');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'aliases' => AsCollection::class,
+        ];
     }
 
     protected function image(): Attribute

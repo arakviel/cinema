@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Liamtseva\Cinema\Enums\Gender;
 use Liamtseva\Cinema\Enums\PersonType;
 use Liamtseva\Cinema\Models\Traits\HasSeo;
@@ -22,26 +24,42 @@ class Person extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'type' => PersonType::class,
-        'gender' => Gender::class,
-        'birthday' => 'date',
-    ];
-
     public function scopeByType(Builder $query, string $type): Builder
     {
         return $query->where('type', $type);
     }
 
-    // TODO: fulltext
     public function scopeByName(Builder $query, string $name): Builder
     {
         return $query->where('name', 'like', '%'.$name.'%');
     }
 
+    // TODO: fulltext
+
     public function scopeByGender(Builder $query, string $gender): Builder
     {
         return $query->where('gender', $gender);
+    }
+
+    public function movies(): BelongsToMany
+    {
+        //return $this->belongsToMany(Movie::class, 'movie_person')
+        return $this->belongsToMany(Movie::class)
+            ->withPivot('character_name');
+    }
+
+    public function userLists(): MorphMany
+    {
+        return $this->morphMany(UserList::class, 'listable');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'type' => PersonType::class,
+            'gender' => Gender::class,
+            'birthday' => 'date',
+        ];
     }
 
     protected function fullName(): Attribute

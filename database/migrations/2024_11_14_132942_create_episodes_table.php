@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('duration')->nullable();
             $table->date('air_date')->nullable();
             $table->boolean('is_filler')->default(false);
-            $table->json('pictures')->nullable();
-            $table->json('video_players')->nullable();
+            $table->json('pictures')->default(DB::raw("'[]'::json"));
+            $table->json('video_players')->default(DB::raw("'[]'::json"));
             $table->string('meta_title', 128)->nullable();
             $table->string('meta_description', 376)->nullable();
             $table->string('meta_image', 2048)->nullable();
