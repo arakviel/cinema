@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Liamtseva\Cinema\Enums\Gender;
 use Liamtseva\Cinema\Enums\PersonType;
 use Liamtseva\Cinema\Models\Traits\HasSeo;
@@ -51,6 +52,11 @@ class Person extends Model
     public function userLists(): MorphMany
     {
         return $this->morphMany(UserList::class, 'listable');
+    }
+
+    public function selections(): MorphToMany
+    {
+        return $this->morphToMany(Selection::class, 'selectionable');
     }
 
     protected function casts(): array

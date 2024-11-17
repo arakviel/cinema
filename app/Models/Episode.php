@@ -45,6 +45,11 @@ class Episode extends Model
         return $this->morphMany(UserList::class, 'listable');
     }
 
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
     protected function casts(): array
     {
         return [

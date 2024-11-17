@@ -51,8 +51,32 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    // TODO: отримати реальний шлях до картинки
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
 
+    public function commentLikes(): HasMany
+    {
+        return $this->hasMany(CommentLike::class);
+    }
+
+    public function commentReports(): HasMany
+    {
+        return $this->hasMany(CommentReport::class);
+    }
+
+    public function searchHistories(): HasMany
+    {
+        return $this->hasMany(SearchHistory::class);
+    }
+
+    public function watchHistories(): HasMany
+    {
+        return $this->hasMany(WatchHistory::class);
+    }
+
+    // TODO: отримати реальний шлях до картинки
     protected function casts(): array
     {
         return [

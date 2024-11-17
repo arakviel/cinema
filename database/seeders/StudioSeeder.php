@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Liamtseva\Cinema\Models\Studio;
 
 class StudioSeeder extends Seeder
 {
@@ -12,6 +12,6 @@ class StudioSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Studio::factory(1_000)->create();
     }
 }

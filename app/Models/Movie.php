@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Liamtseva\Cinema\Casts\ApiSourcesCast;
 use Liamtseva\Cinema\Casts\AttachmentsCast;
 use Liamtseva\Cinema\Casts\MovieRelateCast;
@@ -112,6 +113,16 @@ class Movie extends Model
     public function userLists(): MorphMany
     {
         return $this->morphMany(UserList::class, 'listable');
+    }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function selections(): MorphToMany
+    {
+        return $this->morphToMany(Selection::class, 'selectionable');
     }
 
     protected function posterUrl(): Attribute

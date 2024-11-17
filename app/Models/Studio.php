@@ -19,10 +19,16 @@ class Studio extends Model
 
     protected $guarded = [];
 
-    // TODO: fulltext search
+    protected $hidden = ['searchable'];
 
+    // TODO: fulltext search
     public function scopeByName(Builder $query, string $name): Builder
     {
         return $query->where('name', 'like', '%'.$name.'%');
+    }
+
+    public function scopeSearch(Builder $query, string $search): Builder
+    {
+        return $query->whereRaw("searchable @@ websearch_to_tsquery('ukrainian', ?)", [$search]);
     }
 }
