@@ -24,12 +24,12 @@ class ApiSourcesCast implements CastsAttributes
     /**
      * @param  Collection<ApiSource>|array  $value
      */
-    public function set(Model $model, string $key, mixed $value, array $attributes): array
+    public function set(Model $model, string $key, mixed $value, array $attributes): string
     {
         if (! $value instanceof Collection) {
             $value = collect($value);
         }
 
-        return $value->map(fn (ApiSource $as) => ['name' => $as->name->value, 'id' => $as->id])->toArray();
+        return json_encode($value->map(fn (ApiSource $as) => ['name' => $as->name->value, 'id' => $as->id])->toArray());
     }
 }

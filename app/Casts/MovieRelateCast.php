@@ -24,12 +24,12 @@ class MovieRelateCast implements CastsAttributes
     /**
      * @param  Collection<MovieRelate>|array  $value
      */
-    public function set(Model $model, string $key, mixed $value, array $attributes): mixed
+    public function set(Model $model, string $key, mixed $value, array $attributes): string
     {
         if (! $value instanceof Collection) {
             $value = collect($value);
         }
 
-        return $value->map(fn (MovieRelate $mr) => ['movie_id' => $mr->movie_id, 'type' => $mr->type])->toArray();
+        return json_encode($value->map(fn (MovieRelate $mr) => ['movie_id' => $mr->movie_id, 'type' => $mr->type])->toArray());
     }
 }

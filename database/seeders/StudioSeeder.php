@@ -12,6 +12,6 @@ class StudioSeeder extends Seeder
      */
     public function run(): void
     {
-        Studio::factory(1_000)->create();
+        Studio::factory(50)->create();
     }
 }

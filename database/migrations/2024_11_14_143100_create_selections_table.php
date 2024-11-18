@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('selections', function (Blueprint $table) {
             $table->ulid('id')->primary();
+            $table->foreignUlid('user_id')->constrained()->cascadeOnDelete();
             $table->string('slug')->unique();
             $table->string('name', 128);
             $table->text('description')->nullable();

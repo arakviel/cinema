@@ -82,7 +82,7 @@ class Movie extends Model
 
     public function ratings(): HasMany
     {
-        return $this->hasMany(Rating::class);
+        return $this->hasMany(Rating::class)->chaperone();
     }
 
     public function tags(): BelongsToMany
@@ -92,7 +92,6 @@ class Movie extends Model
 
     public function persons(): BelongsToMany
     {
-        //return $this->belongsToMany(Person::class, 'movie_person')
         return $this->belongsToMany(Person::class)
             ->withPivot('character_name');
     }
@@ -107,7 +106,7 @@ class Movie extends Model
 
     public function episodes(): HasMany
     {
-        return $this->hasMany(Episode::class);
+        return $this->hasMany(Episode::class)->chaperone();
     }
 
     public function userLists(): MorphMany

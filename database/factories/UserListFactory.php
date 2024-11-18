@@ -3,9 +3,10 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Liamtseva\Cinema\Models\UserList;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Liamtseva\Cinema\Models\UserList>
+ * @extends Factory<UserList>
  */
 class UserListFactory extends Factory
 {

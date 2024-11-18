@@ -20,12 +20,19 @@ trait HasSeo
         );
     }
 
-    // TODO: чи треба так робити? протестити у filament php
     protected function slug(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => $value,
-            set: fn ($value) => Str::slug($value)
+            set: fn ($value) => Str::slug($value).'-'.substr(Str::ulid(), 0, 6)
+        );
+    }
+
+    protected function metaDescription(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value,
+            set: fn ($value) => Str::length($value) > 376 ? Str::substr($value, 0, 373).'...' : $value
         );
     }
 }

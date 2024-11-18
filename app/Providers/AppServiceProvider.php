@@ -2,6 +2,7 @@
 
 namespace Liamtseva\Cinema\Providers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,13 +12,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        Model::shouldBeStrict();
     }
 
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-    }
+    public function boot(): void {}
 }

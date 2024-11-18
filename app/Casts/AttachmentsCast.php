@@ -24,12 +24,12 @@ class AttachmentsCast implements CastsAttributes
     /**
      * @param  Collection<Attachment>|array  $value
      */
-    public function set(Model $model, string $key, mixed $value, array $attributes): array
+    public function set(Model $model, string $key, mixed $value, array $attributes): string
     {
         if (! $value instanceof Collection) {
             $value = collect($value);
         }
 
-        return $value->map(fn (Attachment $a) => ['type' => $a->type->value, 'src' => $a->src])->toArray();
+        return json_encode($value->map(fn (Attachment $a) => ['type' => $a->type->value, 'src' => $a->src])->toArray());
     }
 }

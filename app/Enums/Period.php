@@ -2,12 +2,27 @@
 
 namespace Liamtseva\Cinema\Enums;
 
+use Carbon\Carbon;
+
 enum Period: string
 {
     case WINTER = 'winter';
     case SPRING = 'spring';
     case SUMMER = 'summer';
     case AUTUMN = 'autumn';
+
+    public static function fromDate(mixed $releaseDate): Period
+    {
+        $releaseDate = $releaseDate instanceof Carbon ? $releaseDate : Carbon::parse($releaseDate);
+        $month = $releaseDate->month;
+
+        return match (true) {
+            $month >= 3 && $month <= 5 => self::SPRING,
+            $month >= 6 && $month <= 8 => self::SUMMER,
+            $month >= 9 && $month <= 11 => self::AUTUMN,
+            default => self::WINTER,
+        };
+    }
 
     public function name(): string
     {
@@ -32,10 +47,10 @@ enum Period: string
     public function metaTitle(): string
     {
         return match ($this) {
-            self::SPRING => 'Весняні прем\'єри та кіноновинки | ' . config('app.name'),
-            self::SUMMER => 'Літні блокбастери та найкращі фільми | ' . config('app.name'),
-            self::AUTUMN => 'Осінні кінопрем\'єри та кінохіти | ' . config('app.name'),
-            self::WINTER => 'Зимові фільми та святкові прем\'єри | ' . config('app.name'),
+            self::SPRING => 'Весняні прем\'єри та кіноновинки | '.config('app.name'),
+            self::SUMMER => 'Літні блокбастери та найкращі фільми | '.config('app.name'),
+            self::AUTUMN => 'Осінні кінопрем\'єри та кінохіти | '.config('app.name'),
+            self::WINTER => 'Зимові фільми та святкові прем\'єри | '.config('app.name'),
         };
     }
 

@@ -13,8 +13,7 @@ class StudioController extends Controller
      */
     public function index(): void
     {
-        $studios = Studio::search('систему')->get();
-        dd($studios);
+        //
     }
 
     /**

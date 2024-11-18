@@ -39,12 +39,12 @@ class Comment extends Model
 
     public function likes(): HasMany
     {
-        return $this->hasMany(CommentLike::class);
+        return $this->hasMany(CommentLike::class)->chaperone();
     }
 
     public function reports(): HasMany
     {
-        return $this->hasMany(CommentReport::class);
+        return $this->hasMany(CommentReport::class)->chaperone();
     }
 
     public function scopeReplies(Builder $query): Builder
@@ -69,7 +69,7 @@ class Comment extends Model
 
     public function children(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id');
+        return $this->hasMany(self::class, 'parent_id')->chaperone();
     }
 
     public function excerpt(int $length = 50): string

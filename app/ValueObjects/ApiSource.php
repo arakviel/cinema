@@ -8,6 +8,6 @@ class ApiSource
 {
     public function __construct(
         public ApiSourceName $name,
-        public int $id,
+        public string $id,
     ) {}
 }
