@@ -25,9 +25,9 @@ class Person extends Model
 
     protected $guarded = [];
 
-    public function scopeByType(Builder $query, string $type): Builder
+    public function scopeByType(Builder $query, PersonType $type): Builder
     {
-        return $query->where('type', $type);
+        return $query->where('type', $type->value);
     }
 
     public function scopeByName(Builder $query, string $name): Builder

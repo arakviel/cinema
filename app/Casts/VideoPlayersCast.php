@@ -37,12 +37,12 @@ class VideoPlayersCast implements CastsAttributes
             $value = collect($value);
         }
 
-        return $value->map(fn (VideoPlayer $vp) => [
+        return json_encode($value->map(fn (VideoPlayer $vp) => [
             'name' => $vp->name->value,
             'url' => $vp->url,
             'file_url' => $vp->file_url,
             'dubbing' => $vp->dubbing,
             'quality' => $vp->quality->value,
-            'locale_code' => $vp->locale_code])->toArray();
+            'locale_code' => $vp->locale_code])->toArray());
     }
 }

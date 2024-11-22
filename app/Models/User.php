@@ -40,6 +40,11 @@ class User extends Authenticatable
         return $query->where('role', $role->value);
     }
 
+    public function scopeVipCustomer(Builder $query): Builder
+    {
+        return $query->where('vip', true);
+    }
+
     public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class)->chaperone();
@@ -86,7 +91,7 @@ class User extends Authenticatable
     {
         return $this->userLists()
             ->where('listable_type', Movie::class)
-            ->where('user_list_type', UserListType::FAVORITE->value);
+            ->where('type', UserListType::FAVORITE->value);
     }
 
     public function userLists(): HasMany
@@ -98,56 +103,56 @@ class User extends Authenticatable
     {
         return $this->userLists()
             ->where('listable_type', Person::class)
-            ->where('user_list_type', UserListType::FAVORITE->value);
+            ->where('type', UserListType::FAVORITE->value);
     }
 
     public function favoriteTags(): HasMany
     {
         return $this->userLists()
             ->where('listable_type', Tag::class)
-            ->where('user_list_type', UserListType::FAVORITE->value);
+            ->where('type', UserListType::FAVORITE->value);
     }
 
     public function favoriteEpisodes(): HasMany
     {
         return $this->userLists()
             ->where('listable_type', Person::class)
-            ->where('user_list_type', UserListType::FAVORITE->value);
+            ->where('type', UserListType::FAVORITE->value);
     }
 
     public function watchingMovies(): HasMany
     {
         return $this->userLists()
             ->where('listable_type', Movie::class)
-            ->where('user_list_type', UserListType::WATCHING->value);
+            ->where('type', UserListType::WATCHING->value);
     }
 
     public function plannedMovies(): HasMany
     {
         return $this->userLists()
             ->where('listable_type', Movie::class)
-            ->where('user_list_type', UserListType::PLANNED->value);
+            ->where('type', UserListType::PLANNED->value);
     }
 
     public function watchedMovies(): HasMany
     {
         return $this->userLists()
             ->where('listable_type', Movie::class)
-            ->where('user_list_type', UserListType::WATCHED->value);
+            ->where('type', UserListType::WATCHED->value);
     }
 
     public function stoppedMovies(): HasMany
     {
         return $this->userLists()
             ->where('listable_type', Movie::class)
-            ->where('user_list_type', UserListType::STOPPED->value);
+            ->where('type', UserListType::STOPPED->value);
     }
 
     public function ReWatchingMovies(): HasMany
     {
         return $this->userLists()
             ->where('listable_type', Movie::class)
-            ->where('user_list_type', UserListType::REWATCHING->value);
+            ->where('type', UserListType::REWATCHING->value);
     }
 
     // TODO: отримати реальний шлях до картинки

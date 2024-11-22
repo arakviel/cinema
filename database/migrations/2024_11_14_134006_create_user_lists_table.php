@@ -20,7 +20,7 @@ return new class extends Migration
             $table->typeColumn('user_list_type', 'type');
             $table->timestamps();
 
-            $table->unique(['user_id', 'listable_id', 'listable_type']); // Запобігає дублюванню у списку одного користувача
+            $table->unique(['user_id', 'listable_id', 'listable_type']);
         });
     }
 

@@ -21,7 +21,7 @@ class UserList extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'user_list_type' => UserListType::class,
+        'type' => UserListType::class,
     ];
 
     public function listable(): MorphTo
@@ -31,7 +31,7 @@ class UserList extends Model
 
     public function scopeOfType(Builder $query, UserListType $type): Builder
     {
-        return $query->where('user_list_type', $type->value);
+        return $query->where('type', $type->value);
     }
 
     public function scopeForUser(Builder $query,
@@ -44,7 +44,7 @@ class UserList extends Model
                 $query->where('listable_type', $listableClass);
             })
             ->when($userListType, function ($query) use ($userListType) {
-                $query->where('user_list_type', $userListType->value);
+                $query->where('type', $userListType->value);
             });
     }
 }

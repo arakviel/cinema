@@ -10,11 +10,22 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // User::factory(10)->create();
         $this->call([
+            UserSeeder::class,
+            TagSeeder::class,
             StudioSeeder::class,
+            PersonSeeder::class,
             MovieSeeder::class,
-            //SelectionSeeder::class, // допилити
+            RatingSeeder::class,
+            EpisodeSeeder::class,
+            SelectionSeeder::class,
+            UserListSeeder::class,
+            CommentSeeder::class,
+            CommentLikeSeeder::class,
+            CommentReportSeeder::class,
+            SelectionSeeder::class,
+            SearchHistorySeeder::class,
+            WatchHistorySeeder::class,
         ]);
     }
 }

@@ -13,6 +13,11 @@ trait HasSeo
         return $query->where('slug', $slug);
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     protected function metaImage(): Attribute
     {
         return Attribute::make(
@@ -24,7 +29,7 @@ trait HasSeo
     {
         return Attribute::make(
             get: fn ($value) => $value,
-            set: fn ($value) => Str::slug($value).'-'.substr(Str::ulid(), 0, 6)
+            set: fn ($value) => Str::slug($value).'-'.substr(Str::uuid(), 0, 6)
         );
     }
 

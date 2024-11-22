@@ -15,10 +15,12 @@ use Liamtseva\Cinema\Enums\Period;
 use Liamtseva\Cinema\Enums\RestrictedRating;
 use Liamtseva\Cinema\Enums\Source;
 use Liamtseva\Cinema\Enums\Status;
+use Liamtseva\Cinema\Models\Studio;
 use Liamtseva\Cinema\ValueObjects\ApiSource;
 use Liamtseva\Cinema\ValueObjects\Attachment;
 use Liamtseva\Cinema\ValueObjects\MovieRelate;
 
+// Баг
 class MovieFactory extends Factory
 {
     public function definition(): array
@@ -49,13 +51,13 @@ class MovieFactory extends Factory
             'description' => $this->getDescription($movieData),
             'image_name' => $this->faker->imageUrl(200, 100, 'movies'),
             'aliases' => collect([$originalTitle]),
+            'studio_id' => Studio::query()->inRandomOrder()->value('id') ?? Studio::factory(),
             'kind' => $kind->value,
             'status' => $this->determineStatus($movieData)->value,
             'period' => $period?->value,
             'restricted_rating' => $this->faker->randomElement(RestrictedRating::cases())->value,
             'source' => $this->faker->randomElement(Source::cases())->value,
             'countries' => $this->getCountries($movieData),
-            //'countries' => Country::USA,
             'poster' => $this->getPoster($movieData),
             'duration' => $this->getDuration($movieData),
             'episodes_count' => $this->getEpisodesCount($movieData),
@@ -77,7 +79,7 @@ class MovieFactory extends Factory
      */
     private function getMovieData(string $movieOrTv): array
     {
-        $randomId = $movieOrTv === 'movie' ? $this->faker->numberBetween(1, 90_000) : $this->faker->numberBetween(1, 5_000);
+        $randomId = $movieOrTv === 'movie' ? $this->faker->numberBetween(70_000, 90_000) : $this->faker->numberBetween(4_000, 5_000);
 
         $response = Http::get("https://api.themoviedb.org/3/{$movieOrTv}/{$randomId}", [
             'api_key' => env('TMDB_API_KEY'),
@@ -114,7 +116,7 @@ class MovieFactory extends Factory
     /**
      * Визначаємо статус залежно від доступних даних
      */
-    private function determineStatus(array $movieData): Status
+    public function determineStatus(array $movieData): Status
     {
         if (isset($movieData['status'])) {
             if ($movieData['status'] === 'Ended' || $movieData['status'] === 'Released') {
@@ -137,8 +139,9 @@ class MovieFactory extends Factory
 
     /**
      * Отримуємо країни
+     * TODO: не робить, виправити, лише USA ставить :)
      */
-    private function getCountries(array $movieData): Collection
+    public function getCountries(array $movieData): Collection
     {
         $countries = $movieData['production_countries'] ?? [];
 
@@ -150,7 +153,7 @@ class MovieFactory extends Factory
     /**
      * Отримуємо постер
      */
-    private function getPoster(array $movieData): string
+    public function getPoster(array $movieData): string
     {
         return isset($movieData['poster_path']) ? "https://image.tmdb.org/t/p/w500{$movieData['poster_path']}" : $this->faker->imageUrl(800, 1200);
     }
@@ -166,7 +169,7 @@ class MovieFactory extends Factory
     /**
      * Отримуємо кількість епізодів
      */
-    private function getEpisodesCount(array $movieData): int
+    public function getEpisodesCount(array $movieData): int
     {
         return $movieData['episode_count'] ?? 1;
     }
@@ -174,7 +177,7 @@ class MovieFactory extends Factory
     /**
      * Генеруємо прикріплені файли
      */
-    private function generateAttachments(): Collection
+    public function generateAttachments(): Collection
     {
         return collect([
             new Attachment(AttachmentType::PICTURE, $this->faker->imageUrl()),
@@ -198,7 +201,7 @@ class MovieFactory extends Factory
     /**
      * Отримуємо задник
      */
-    private function getBackdrop(array $movieData): string
+    public function getBackdrop(array $movieData): string
     {
         return isset($movieData['backdrop_path']) ? "https://image.tmdb.org/t/p/w500{$movieData['backdrop_path']}" : $this->faker->imageUrl(800, 1200);
     }

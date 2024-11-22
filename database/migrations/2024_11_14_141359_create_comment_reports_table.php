@@ -8,9 +8,6 @@ use Liamtseva\Cinema\Enums\CommentReportType;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         $reportValues = implode("','", array_column(CommentReportType::cases(), 'value'));

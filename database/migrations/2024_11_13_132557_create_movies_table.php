@@ -36,6 +36,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('image_name', 2048); // Шлях до зображення
             $table->json('aliases')->default(DB::raw("'[]'::json")); // JSON для масиву аліасів
+            $table->foreignUlid('studio_id')->constrained()->cascadeOnDelete();
             $table->typeColumn('kind', 'kind');
             $table->typeColumn('status', 'status');
             $table->typeColumn('period', 'period')->nullable();
@@ -47,7 +48,7 @@ return new class extends Migration
             $table->integer('episodes_count')->nullable(); // Кількість епізодів
             $table->date('first_air_date')->nullable(); // Дата початку ефіру
             $table->date('last_air_date')->nullable(); // Дата завершення ефіру
-            $table->decimal('imdb_score', 3, 2)->nullable(); // Оцінка на IMDB
+            $table->decimal('imdb_score', 4, 2)->nullable(); // Оцінка на IMDB
             $table->json('attachments')->default(DB::raw("'[]'::json")); // JSON для масиву прикріплених елементів
             $table->json('related')->default(DB::raw("'[]'::json")); // JSON для пов'язаних елементів
             $table->json('similars')->default(DB::raw("'[]'::json")); // JSON для схожих фільмів

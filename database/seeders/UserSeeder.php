@@ -3,12 +3,12 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Liamtseva\Cinema\Models\Rating;
+use Liamtseva\Cinema\Models\User;
 
-class RatingSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        Rating::factory(20)->create();
+        User::factory(20)->create();
     }
 }

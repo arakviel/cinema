@@ -9,4 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('/selections', [SelectionController::class, 'index']);
-Route::get('/studios', [StudioController::class, 'index']);
+//Route::get('/studios', [StudioController::class, 'index']);
+
+Route::resource('studios', StudioController::class);
+//Route::resource('movies.comments', CommentController::class);

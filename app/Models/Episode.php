@@ -77,13 +77,6 @@ class Episode extends Model
         );
     }
 
-    protected function duration(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $this->formatDuration($this->duration)
-        );
-    }
-
     private function formatDuration(int $duration): string
     {
         $hours = floor($duration / 60);

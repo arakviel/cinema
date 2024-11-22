@@ -33,8 +33,6 @@ class Tag extends Model
             ->orWhere('slug', 'LIKE', "%{$term}%");
     }
 
-    // TODO: Переробити на fulltext
-
     public function movies(): BelongsToMany
     {
         return $this->belongsToMany(Movie::class);
