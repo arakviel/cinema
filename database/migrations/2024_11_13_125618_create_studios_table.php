@@ -27,19 +27,15 @@ return new class extends Migration
                 setweight(to_tsvector('ukrainian', description), 'B')
             ) STORED
         ");
-        DB::unprepared('
-            ALTER TABLE studios
-            ADD COLUMN trgm_searchable TEXT GENERATED ALWAYS AS (name) STORED
-        ');
 
         DB::unprepared('CREATE INDEX studios_searchable_index ON studios USING GIN (searchable)');
-        DB::unprepared('CREATE INDEX studios_trgm_searchable_idx ON studios USING GIN (trgm_searchable gin_trgm_ops)');
+        DB::unprepared('CREATE INDEX studios_trgm_name_idx ON studios USING GIN (name gin_trgm_ops)');
     }
 
     public function down(): void
     {
         DB::unprepared('DROP INDEX IF EXISTS studios_searchable_index');
-        DB::unprepared('DROP INDEX IF EXISTS studios_trgm_searchable_idx');
+        DB::unprepared('DROP INDEX IF EXISTS studios_trgm_name_idx');
         Schema::dropIfExists('studios');
     }
 };

@@ -41,9 +41,9 @@ class Studio extends Model
             ->addSelect(DB::raw("ts_rank(searchable, websearch_to_tsquery('ukrainian', ?)) AS rank"))
             ->addSelect(DB::raw("ts_headline('ukrainian', name, websearch_to_tsquery('ukrainian', ?), 'HighlightAll=true') AS name_highlight"))
             ->addSelect(DB::raw("ts_headline('ukrainian', description, websearch_to_tsquery('ukrainian', ?), 'HighlightAll=true') AS description_highlight"))
-            ->addSelect(DB::raw('similarity(trgm_searchable, ?) AS similarity'))
+            ->addSelect(DB::raw('similarity(name, ?) AS similarity'))
             ->whereRaw("searchable @@ websearch_to_tsquery('ukrainian', ?)", [$search, $search, $search, $search, $search])
-            ->whereRaw('trgm_searchable % ?', [$search])
+            ->orWhereRaw('name % ?', [$search])
             ->orderByDesc('rank')
             ->orderByDesc('similarity');
     }

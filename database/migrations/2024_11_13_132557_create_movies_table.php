@@ -58,6 +58,18 @@ return new class extends Migration
             $table->string('meta_image', 2048)->nullable();
             $table->timestamps();
         });
+
+        DB::unprepared("
+            ALTER TABLE movies
+            ADD COLUMN searchable tsvector GENERATED ALWAYS AS (
+                setweight(to_tsvector('ukrainian', name), 'A') ||
+                setweight(to_tsvector('ukrainian', aliases), 'A') ||
+                setweight(to_tsvector('ukrainian', description), 'B')
+            ) STORED
+        ");
+
+        DB::unprepared('CREATE INDEX movies_searchable_index ON movies USING GIN (searchable)');
+        DB::unprepared('CREATE INDEX movies_trgm_name_idx ON movies USING GIN (name gin_trgm_ops)');
     }
 
     public function down(): void
@@ -70,5 +82,8 @@ return new class extends Migration
         DB::unprepared('DROP TYPE period');
         DB::unprepared('DROP TYPE status');
         DB::unprepared('DROP TYPE kind');
+
+        DB::unprepared('DROP INDEX IF EXISTS movies_searchable_index');
+        DB::unprepared('DROP INDEX IF EXISTS movies_trgm_name_idx');
     }
 };

@@ -29,11 +29,26 @@ return new class extends Migration
             $table->string('meta_image', 2048)->nullable();
             $table->timestamps();
         });
+
+        DB::unprepared("
+            ALTER TABLE people
+            ADD COLUMN searchable tsvector GENERATED ALWAYS AS (
+                setweight(to_tsvector('ukrainian', name), 'A') ||
+                setweight(to_tsvector('english', coalesce(original_name, '')), 'A') ||
+                setweight(to_tsvector('ukrainian', coalesce(description, '')), 'B')
+            ) STORED
+        ");
+
+        DB::unprepared('CREATE INDEX people_searchable_index ON people USING GIN (searchable)');
+        DB::unprepared('CREATE INDEX people_trgm_name_idx ON people USING GIN (name gin_trgm_ops)');
     }
 
     public function down(): void
     {
         Schema::dropIfExists('people');
         DB::unprepared('DROP TYPE person_type');
+
+        DB::unprepared('DROP INDEX IF EXISTS people_searchable_index');
+        DB::unprepared('DROP INDEX IF EXISTS people_trgm_name_idx');
     }
 };
