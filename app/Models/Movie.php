@@ -170,7 +170,6 @@ class Movie extends Model
             'period' => Period::class,
             'restricted_rating' => RestrictedRating::class,
             'source' => Source::class,
-            'video_quality' => VideoQuality::class,
         ];
     }
 }

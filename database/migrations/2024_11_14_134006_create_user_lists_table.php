@@ -10,17 +10,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $kindValues = implode("','", array_column(UserListType::cases(), 'value'));
-        DB::unprepared("CREATE TYPE user_list_type AS ENUM ('$kindValues')");
-
         Schema::create('user_lists', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->foreignUlid('user_id')->constrained()->cascadeOnDelete();
             $table->ulidMorphs('listable');
-            $table->typeColumn('user_list_type', 'type');
             $table->timestamps();
 
             $table->unique(['user_id', 'listable_id', 'listable_type']);
+        });
+
+        Schema::table('user_lists', function (Blueprint $table) {
+            $table->enumAlterColumn('type', 'user_list_type', UserListType::class);
         });
     }
 

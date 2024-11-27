@@ -3,8 +3,7 @@
 namespace Liamtseva\Cinema\Providers;
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Grammars\Grammar;
-use Illuminate\Support\Fluent;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class MigrationServiceProvider extends ServiceProvider
@@ -16,12 +15,51 @@ class MigrationServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Grammar::macro('typeRaw', function (Fluent $column) {
-            return $column->get('raw_type');
-        });
 
-        Blueprint::macro('typeColumn', function (string $type, string $columnName) {
-            return $this->addColumn('raw', $columnName, ['raw_type' => $type]);
-        });
+        Blueprint::macro('enumAlterColumn',
+            function (string $columnName,
+                string $enumTypeName,
+                string $enumClass,
+                ?string $default = null,
+                bool $nullable = false) {
+                // Генеруємо список значень enum
+                $value = collect($enumClass::cases())
+                    ->map(fn ($case) => "'{$case->value}'")
+                    ->implode(',');
+
+                // Створюємо тип enum, якщо він ще не існує
+                DB::statement(sprintf(
+                    "DO $$ BEGIN
+                                IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = '%s') THEN
+                                    CREATE TYPE %s AS ENUM (%s);
+                                END IF;
+                            END $$;",
+                    $enumTypeName,
+                    $enumTypeName,
+                    $value
+                ));
+
+                // Додаємо стовпець з типом enum та nullable, якщо це необхідно
+                $nullableClause = $nullable ? 'NULL' : 'NOT NULL';
+
+                DB::statement(sprintf(
+                    'ALTER TABLE "%s" ADD COLUMN "%s" %s %s;',
+                    $this->getTable(),
+                    $columnName,
+                    $enumTypeName,
+                    $nullableClause
+                ));
+
+                // Якщо задано значення за замовчуванням, додаємо його
+                if ($default) {
+                    DB::statement(sprintf(
+                        'ALTER TABLE "%s" ALTER COLUMN "%s" SET DEFAULT %s;',
+                        $this->getTable(),
+                        $columnName,
+                        "'{$default}'"
+                    ));
+                }
+            });
+
     }
 }

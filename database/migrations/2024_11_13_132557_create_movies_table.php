@@ -9,26 +9,12 @@ use Liamtseva\Cinema\Enums\Period;
 use Liamtseva\Cinema\Enums\RestrictedRating;
 use Liamtseva\Cinema\Enums\Source;
 use Liamtseva\Cinema\Enums\Status;
-use Liamtseva\Cinema\Enums\VideoQuality;
 
 return new class extends Migration
 {
     public function up(): void
     {
         Schema::create('movies', function (Blueprint $table) {
-            $kindValues = implode("','", array_column(Kind::cases(), 'value'));
-            DB::unprepared("CREATE TYPE kind AS ENUM ('$kindValues')");
-            $statusValues = implode("','", array_column(Status::cases(), 'value'));
-            DB::unprepared("CREATE TYPE status AS ENUM ('$statusValues')");
-            $periodValues = implode("','", array_column(Period::cases(), 'value'));
-            DB::unprepared("CREATE TYPE period AS ENUM ('$periodValues')");
-            $restrictedRatingValues = implode("','", array_column(RestrictedRating::cases(), 'value'));
-            DB::unprepared("CREATE TYPE restricted_rating AS ENUM ('$restrictedRatingValues')");
-            $sourceValues = implode("','", array_column(Source::cases(), 'value'));
-            DB::unprepared("CREATE TYPE source AS ENUM ('$sourceValues')");
-            $videoQualityValues = implode("','", array_column(VideoQuality::cases(), 'value'));
-            DB::unprepared("CREATE TYPE video_quality AS ENUM ('$videoQualityValues')");
-
             $table->ulid('id')->primary(); // Унікальний ідентифікатор
             $table->json('api_sources')->default(DB::raw("'[]'::json")); // JSON для API ідентифікаторів (source, id)
             $table->string('slug', 128)->unique(); // Унікальний slug
@@ -37,11 +23,6 @@ return new class extends Migration
             $table->string('image_name', 2048); // Шлях до зображення
             $table->json('aliases')->default(DB::raw("'[]'::json")); // JSON для масиву аліасів
             $table->foreignUlid('studio_id')->constrained()->cascadeOnDelete();
-            $table->typeColumn('kind', 'kind');
-            $table->typeColumn('status', 'status');
-            $table->typeColumn('period', 'period')->nullable();
-            $table->typeColumn('restricted_rating', 'restricted_rating');
-            $table->typeColumn('source', 'source');
             $table->json('countries')->default(DB::raw("'[]'::json")); // JSON країн розробників enum Country
             $table->string('poster', 2048)->nullable(); // Шлях до постера
             $table->integer('duration')->nullable(); // Тривалість у хвилинах
@@ -57,6 +38,14 @@ return new class extends Migration
             $table->string('meta_description', 376)->nullable();
             $table->string('meta_image', 2048)->nullable();
             $table->timestamps();
+        });
+
+        Schema::table('movies', function (Blueprint $table) {
+            $table->enumAlterColumn('kind', 'kind', Kind::class);
+            $table->enumAlterColumn('status', 'status', Status::class);
+            $table->enumAlterColumn('period', 'period', Period::class, nullable: true);
+            $table->enumAlterColumn('restricted_rating', 'restricted_rating', RestrictedRating::class);
+            $table->enumAlterColumn('source', 'source', Source::class);
         });
 
         DB::unprepared("
@@ -76,7 +65,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('movies');
 
-        DB::unprepared('DROP TYPE video_quality');
         DB::unprepared('DROP TYPE source');
         DB::unprepared('DROP TYPE restricted_rating');
         DB::unprepared('DROP TYPE period');

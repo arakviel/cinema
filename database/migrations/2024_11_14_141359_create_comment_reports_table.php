@@ -10,17 +10,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $reportValues = implode("','", array_column(CommentReportType::cases(), 'value'));
-        DB::unprepared("CREATE TYPE comment_report_type AS ENUM ('$reportValues')");
-
         Schema::create('comment_reports', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->foreignUlid('comment_id')->constrained()->cascadeOnDelete();
             $table->foreignUlid('user_id')->constrained()->cascadeOnDelete();
-            $table->typeColumn('comment_report_type', 'type');
             $table->boolean('is_viewed')->default(false);
             $table->text('body')->nullable();
             $table->timestamps();
+        });
+
+        Schema::table('comment_reports', function (Blueprint $table) {
+            $table->enumAlterColumn('type', 'comment_report_type', CommentReportType::class);
         });
     }
 

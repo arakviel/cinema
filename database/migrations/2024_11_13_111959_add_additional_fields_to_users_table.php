@@ -11,23 +11,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $roleValues = implode("','", array_column(Role::cases(), 'value'));
-        DB::unprepared("CREATE TYPE role AS ENUM ('$roleValues')");
-
-        $genderValues = implode("','", array_column(Gender::cases(), 'value'));
-        DB::unprepared("CREATE TYPE gender AS ENUM ('$genderValues')");
-
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('id');
             $table->ulid('id')->primary();
-            $table->renameColumn('name', 'username');
-            $table->string('username')->unique()->change();
-            //$table->addColumn('raw', 'role', ['raw_type' => 'role'])->default(Role::USER->value);
-            $table->typeColumn('role', 'role')->default(Role::USER->value);
+            $table->string('name')->unique()->change();
+            $table->enumAlterColumn('role', 'role', Role::class, default: Role::USER->value);
             $table->string('avatar', 2048)->nullable();
             $table->string('backdrop', 2048)->nullable();
-            //$table->addColumn('raw', 'gender', ['raw_type' => 'gender'])->nullable();
-            $table->typeColumn('gender', 'gender')->nullable();
+            $table->enumAlterColumn('gender', 'gender', Gender::class, nullable: true);
             $table->string('description', 248)->nullable();
             $table->date('birthday')->nullable();
             $table->boolean('allow_adult')->default(false);
@@ -37,6 +28,12 @@ return new class extends Migration
             $table->boolean('is_auto_skip_intro')->default(false);
             $table->boolean('is_private_favorites')->default(false);
         });
+
+        Schema::table('sessions', function (Blueprint $table) {
+            $table->dropIndex(['user_id']);
+            $table->dropColumn('user_id');
+            $table->foreignUlid('user_id')->nullable()->index();
+        });
     }
 
     public function down(): void
@@ -44,7 +41,6 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('id');
             $table->id();
-            $table->renameColumn('username', 'name');
 
             $table->dropColumn('role');
             $table->dropColumn('avatar');
@@ -62,5 +58,11 @@ return new class extends Migration
 
         DB::unprepared('DROP TYPE role');
         DB::unprepared('DROP TYPE gender');
+
+        Schema::table('sessions', function (Blueprint $table) {
+            $table->dropIndex(['user_id']);
+            $table->dropColumn('user_id');
+            $table->foreignId('user_id')->nullable()->index();
+        });
     }
 };
