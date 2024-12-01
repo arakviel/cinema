@@ -11,9 +11,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $personTypeValues = implode("','", array_column(PersonType::cases(), 'value'));
-        DB::unprepared("CREATE TYPE person_type AS ENUM ('$personTypeValues')");
-
         Schema::create('people', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->string('slug', 128)->unique();

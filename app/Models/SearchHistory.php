@@ -16,8 +16,6 @@ class SearchHistory extends Model
     /** @use HasFactory<SearchHistoryFactory> */
     use HasFactory, HasUlids;
 
-    protected $guarded = [];
-
     public static function cleanOldHistory(int $userId, int $days = 30)
     {
         return self::where('user_id', $userId)

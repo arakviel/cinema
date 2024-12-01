@@ -24,8 +24,6 @@ class Person extends Model
     /** @use HasFactory<PersonFactory> */
     use HasFactory, HasSeo, HasUlids;
 
-    protected $guarded = [];
-
     public function scopeByType(Builder $query, PersonType $type): Builder
     {
         return $query->where('type', $type->value);

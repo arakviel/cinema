@@ -20,8 +20,6 @@ class Tag extends Model
     /** @use HasFactory<TagFactory> */
     use HasFactory, HasSeo, HasUlids;
 
-    protected $guarded = [];
-
     public function scopeGenres($query)
     {
         return $query->where('is_genre', true);

@@ -29,7 +29,7 @@ trait HasSeo
     {
         return Attribute::make(
             get: fn ($value) => $value,
-            set: fn ($value) => Str::slug($value).'-'.substr(Str::uuid(), 0, 6)
+            set: fn ($value) => str($value)->slug().'-'.str(str()->random(6))->lower()
         );
     }
 

@@ -7,6 +7,15 @@ use Liamtseva\Cinema\Models\User;
 
 class StudioPolicy
 {
+    public function before(User $user, $ability): ?bool
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        return null;
+    }
+
     /**
      * Determine whether the user can view any models.
      */

@@ -39,7 +39,7 @@ class Movie extends Model
     /** @use HasFactory<MovieFactory> */
     use HasFactory, HasSeo, HasUlids;
 
-    protected $guarded = [];
+    protected $hidden = ['searchable'];
 
     // Фільтрує за типом (Kind)
     public function scopeOfKind(Builder $query, Kind $kind): Builder
@@ -115,7 +115,7 @@ class Movie extends Model
     public function persons(): BelongsToMany
     {
         return $this->belongsToMany(Person::class)
-            ->withPivot('character_name');
+            ->withPivot('character_name', 'voice_person_id');
     }
 
     // TODO: продумати, де зберігати картинки...

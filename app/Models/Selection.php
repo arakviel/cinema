@@ -21,7 +21,7 @@ class Selection extends Model
     /** @use HasFactory<SelectionFactory> */
     use HasFactory, HasSeo, HasUlids;
 
-    protected $guarded = [];
+    protected $hidden = ['searchable'];
 
     public function user(): BelongsTo
     {

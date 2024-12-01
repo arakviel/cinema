@@ -4,6 +4,8 @@ namespace Liamtseva\Cinema\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -18,12 +20,10 @@ use Liamtseva\Cinema\Enums\UserListType;
 /**
  * @mixin IdeHelperUser
  */
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, HasUlids, Notifiable;
-
-    protected $guarded = [];
 
     protected $hidden = [
         'password',
@@ -38,6 +38,11 @@ class User extends Authenticatable
     public function scopeByRole(Builder $query, Role $role): Builder
     {
         return $query->where('role', $role->value);
+    }
+
+    public function scopeIsAdmin(Builder $query): Builder
+    {
+        return $query->where('role', Role::ADMIN->value);
     }
 
     public function scopeVipCustomer(Builder $query): Builder
@@ -148,14 +153,25 @@ class User extends Authenticatable
             ->where('type', UserListType::STOPPED->value);
     }
 
-    public function ReWatchingMovies(): HasMany
+    public function reWatchingMovies(): HasMany
     {
         return $this->userLists()
             ->where('listable_type', Movie::class)
             ->where('type', UserListType::REWATCHING->value);
     }
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role == Role::ADMIN;
+    }
+
     // TODO: отримати реальний шлях до картинки
+
     protected function casts(): array
     {
         return [

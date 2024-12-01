@@ -18,8 +18,6 @@ class Rating extends Model
     /** @use HasFactory<RatingFactory> */
     use HasFactory, HasUlids;
 
-    protected $guarded = [];
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

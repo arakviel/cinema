@@ -18,8 +18,6 @@ class CommentReport extends Model
     /** @use HasFactory<CommentReportFactory> */
     use HasFactory, HasUlids;
 
-    protected $guarded = [];
-
     protected $casts = [
         'type' => CommentReportType::class,
     ];

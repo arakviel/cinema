@@ -16,8 +16,6 @@ class WatchHistory extends Model
     /** @use HasFactory<WatchHistoryFactory> */
     use HasFactory, HasUlids;
 
-    protected $guarded = [];
-
     public static function cleanOldHistory(int $userId, int $days = 30)
     {
         // Очищаємо історію перегляду для користувача, якщо вона старша ніж задані дні

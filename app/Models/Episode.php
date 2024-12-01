@@ -23,8 +23,6 @@ class Episode extends Model
     /** @use HasFactory<EpisodeFactory> */
     use HasFactory, HasSeo, HasUlids;
 
-    protected $guarded = [];
-
     public function scopeForMovie(Builder $query, string $movieId): Builder
     {
         return $query->where('movie_id', $movieId);

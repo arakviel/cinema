@@ -20,8 +20,6 @@ class Comment extends Model
     /** @use HasFactory<CommentFactory> */
     use HasFactory, HasUlids;
 
-    protected $guarded = [];
-
     public function commentable(): MorphTo
     {
         return $this->morphTo();

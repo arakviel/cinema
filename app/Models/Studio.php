@@ -19,8 +19,6 @@ class Studio extends Model
     /** @use HasFactory<StudioFactory> */
     use HasFactory, HasSeo, HasUlids;
 
-    protected $guarded = [];
-
     protected $hidden = ['searchable'];
 
     public function movies(): HasMany

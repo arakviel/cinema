@@ -18,8 +18,6 @@ class UserList extends Model
     /** @use HasFactory<UserListFactory> */
     use HasFactory, HasUlids;
 
-    protected $guarded = [];
-
     protected $casts = [
         'type' => UserListType::class,
     ];

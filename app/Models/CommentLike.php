@@ -17,8 +17,6 @@ class CommentLike extends Model
     /** @use HasFactory<CommentLikeFactory> */
     use HasFactory, HasUlids;
 
-    protected $guarded = [];
-
     public function comment(): BelongsTo
     {
         return $this->belongsTo(Comment::class);
